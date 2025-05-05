@@ -22,6 +22,7 @@ class _IOSNavigationWrapperState extends State<IOSNavigationWrapper> {
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
+        backgroundColor: GlobalRemitColors.background(context),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.house),
@@ -56,31 +57,21 @@ class _IOSNavigationWrapperState extends State<IOSNavigationWrapper> {
       ),
       tabBuilder: (context, index) {
         return CupertinoTabView(
-          builder: (context) {
-            return CupertinoPageScaffold(
-              navigationBar: CupertinoNavigationBar(
-                middle: Text(_pageTitles[index]),
-                trailing: index == 3 
-                  ? Consumer<AuthProvider>(
-                      builder: (context, authProvider, _) {
-                        return CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          child: const Text('Log Out'),
-                          onPressed: () {
-                            authProvider.signOut();
-                            Navigator.pushReplacementNamed(context, '/login');
-                          },
-                        );
-                      },
-                    )
-                  : null,
-                backgroundColor: GlobalRemitColors.primaryBackground(context),
-              ),
-              child: SafeArea(
-                child: BaseNavigationWrapper(pageTitle: _pageTitles[index]),
-              ),
-            );
-          },
+          builder: (context) => BaseNavigationWrapper(
+            title: _pageTitles[index],
+            selectedIndex: index,
+            appBarLeading: Image.asset(
+              Theme.of(context).brightness == Brightness.dark 
+                ? 'assets/images/logo-light.svg.png' 
+                : 'assets/images/logo-dark.svg.png',
+              height: 24,
+            ),
+            onTabSelected: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+          ),
         );
       },
     );

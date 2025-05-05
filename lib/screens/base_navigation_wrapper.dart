@@ -1,32 +1,47 @@
 import 'package:flutter/material.dart';
 
 class BaseNavigationWrapper extends StatelessWidget {
-  final String pageTitle;
+  final String title;
+  final int selectedIndex;
+  final Widget? appBarLeading;
+  final ValueChanged<int>? onTabSelected;
+  final Widget? child;
 
   const BaseNavigationWrapper({
     super.key, 
-    this.pageTitle = 'Dashboard',
+    this.title = 'Dashboard',
+    this.selectedIndex = 0,
+    this.appBarLeading,
+    this.onTabSelected,
+    this.child,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        // Render different content based on the page title
-        switch (pageTitle) {
-          case 'Dashboard':
-          case 'Home':
-            return _buildDashboard(context);
-          case 'Transfers':
-            return _buildTransfers(context);
-          case 'Activity':
-            return _buildActivity(context);
-          case 'Profile':
-            return _buildProfile(context);
-          default:
-            return _buildDashboard(context);
-        }
-      },
+    return Scaffold(
+      appBar: AppBar(
+        leading: appBarLeading,
+        title: Text(title),
+        elevation: 0,
+      ),
+      body: child ?? Builder(
+        builder: (context) {
+          // Render different content based on the title
+          switch (title) {
+            case 'Home':
+            case 'Dashboard':
+              return _buildDashboard(context);
+            case 'Transfers':
+              return _buildTransfers(context);
+            case 'Activity':
+              return _buildActivity(context);
+            case 'Profile':
+              return _buildProfile(context);
+            default:
+              return _buildDashboard(context);
+          }
+        },
+      ),
     );
   }
 

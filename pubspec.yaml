@@ -29,11 +29,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   
-  # Temporarily commenting out assets that don't exist yet
-  # Uncomment these after creating the directories and files
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
+  assets:
+    - assets/images/
+    - assets/icons/
   
   # Temporarily commenting out fonts until SF Pro fonts are added
   # fonts:

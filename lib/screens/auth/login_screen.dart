@@ -5,6 +5,7 @@ import '../../providers/auth_provider.dart';
 import '../../utils/platform_utils.dart';
 import '../../theme/theme_constants.dart';
 import '../../theme/colors.dart';
+import '../base_navigation_wrapper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -104,9 +105,17 @@ class _LoginScreenState extends State<LoginScreen> {
     final isWeb = PlatformUtils.isWeb;
     final maxWidth = isTablet || isWeb ? 450.0 : size.width;
     
-    return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      body: SafeArea(
+    return BaseNavigationWrapper(
+      title: 'Login',
+      appBarLeading: Image.asset(
+        Theme.of(context).brightness == Brightness.dark 
+          ? 'assets/images/logo-light.svg.png' 
+          : 'assets/images/logo-dark.svg.png',
+        height: 24,
+      ),
+      child: Scaffold(
+        backgroundColor: theme.scaffoldBackgroundColor,
+        body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
@@ -121,18 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Logo and App Name
                   Column(
                     children: [
-                      Container(
-                        width: 80,
+                      Image.asset(
+                        Theme.of(context).brightness == Brightness.dark 
+                          ? 'assets/images/logo-light.svg.png' 
+                          : 'assets/images/logo-dark.svg.png',
                         height: 80,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
-                          Icons.attach_money,
-                          color: Colors.white,
-                          size: 40,
-                        ),
+                        width: 80,
                       ),
                       const SizedBox(height: 24),
                       Text(

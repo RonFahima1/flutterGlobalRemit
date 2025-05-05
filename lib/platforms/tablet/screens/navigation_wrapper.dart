@@ -28,7 +28,21 @@ class _TabletNavigationWrapperState extends State<TabletNavigationWrapper> {
   ];
 
   Widget _getPage(int index) {
-    return BaseNavigationWrapper(pageTitle: _pageTitles[index]);
+    return BaseNavigationWrapper(
+      title: _pageTitles[index],
+      selectedIndex: index,
+      appBarLeading: Image.asset(
+        Theme.of(context).brightness == Brightness.dark 
+          ? 'assets/images/logo-light.svg.png' 
+          : 'assets/images/logo-dark.svg.png',
+        height: 24,
+      ),
+      onTabSelected: (newIndex) {
+        setState(() {
+          _selectedIndex = newIndex;
+        });
+      },
+    );
   }
 
   @override

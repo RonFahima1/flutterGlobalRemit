@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'theme/typography.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/navigation_wrapper.dart';
+import 'screens/splash_screen.dart';
 import 'providers/auth_provider.dart';
 import 'providers/theme_provider.dart';
 
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             home: const LoginScreen(),
             routes: {
+              '/': (context) => const SplashScreen(),
               '/login': (context) => const LoginScreen(),
               '/home': (context) => const NavigationWrapper(),
             },
