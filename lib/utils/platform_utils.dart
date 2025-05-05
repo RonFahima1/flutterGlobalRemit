@@ -73,7 +73,7 @@ class PlatformUtils {
   /// Get the current platform theme
   static ThemeData getPlatformTheme(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    final bool isDark = themeProvider.isDarkMode(context);
+    final bool isDark = themeProvider.isDarkModeFromContext(context);
     
     // Return appropriate theme based on platform
     if (isIOS) {

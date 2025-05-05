@@ -24,7 +24,7 @@ class ThemeProvider extends ChangeNotifier {
   }
   
   // For backward compatibility
-  bool isDarkMode(BuildContext context) {
+  bool isDarkModeFromContext(BuildContext context) {
     if (_themeMode == ThemeMode.system) {
       return MediaQuery.of(context).platformBrightness == Brightness.dark;
     }
@@ -141,7 +141,7 @@ class ThemeProvider extends ChangeNotifier {
   
   // Get the appropriate theme based on platform
   ThemeData getPlatformTheme(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = isDarkModeFromContext(context);
     
     // Return appropriate theme based on platform
     if (PlatformUtils.isIOS) {

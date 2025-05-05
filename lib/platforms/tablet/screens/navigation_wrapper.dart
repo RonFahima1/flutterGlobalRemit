@@ -49,7 +49,7 @@ class _TabletNavigationWrapperState extends State<TabletNavigationWrapper> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDark = themeProvider.isDarkMode(context);
+    final isDark = themeProvider.isDarkModeFromContext(context);
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
     final isLandscape = size.width > size.height;
