@@ -222,30 +222,44 @@ class MyApp extends StatelessWidget {
                   );
                 case '/beneficiaries':
                   return MaterialPageRoute(
-                    builder: (_) => const Scaffold(
-                      appBar: AppBar(title: Text('Beneficiaries')),
-                      body: Center(child: Text('Beneficiaries Screen - Coming Soon')),
+                    builder: (_) => Scaffold(
+                      appBar: AppBar(
+                        title: const Text('Beneficiaries'),
+                      ),
+                      body: const Center(
+                        child: Text('Beneficiaries Screen - Coming Soon'),
+                      ),
                     ),
                   );
                 case '/transfer-history':
                   return MaterialPageRoute(
-                    builder: (_) => const Scaffold(
-                      appBar: AppBar(title: Text('Transfer History')),
-                      body: Center(child: Text('Transfer History Screen - Coming Soon')),
+                    builder: (_) => Scaffold(
+                      appBar: AppBar(
+                        title: const Text('Transfer History'),
+                      ),
+                      body: const Center(
+                        child: Text('Transfer History Screen - Coming Soon'),
+                      ),
                     ),
                   );
                 case '/cards':
                   return MaterialPageRoute(
-                    builder: (_) => const Scaffold(
-                      appBar: AppBar(title: Text('Cards')),
-                      body: Center(child: Text('Cards Screen - Coming Soon')),
+                    builder: (_) => Scaffold(
+                      appBar: AppBar(
+                        title: const Text('Cards'),
+                      ),
+                      body: const Center(
+                        child: Text('Cards Screen - Coming Soon'),
+                      ),
                     ),
                   );
                 case '/transfer-details':
                   final args = settings.arguments as Map<String, dynamic>?;
                   return MaterialPageRoute(
                     builder: (_) => Scaffold(
-                      appBar: AppBar(title: const Text('Transfer Details')),
+                      appBar: AppBar(
+                        title: const Text('Transfer Details'),
+                      ),
                       body: Center(
                         child: Text(
                           'Transfer Details Screen - Coming Soon\n' +
@@ -258,7 +272,9 @@ class MyApp extends StatelessWidget {
                   final args = settings.arguments as Map<String, dynamic>?;
                   return MaterialPageRoute(
                     builder: (_) => Scaffold(
-                      appBar: AppBar(title: const Text('Add Beneficiary')),
+                      appBar: AppBar(
+                        title: const Text('Add Beneficiary'),
+                      ),
                       body: Center(
                         child: Text(
                           'Add Beneficiary Screen - Coming Soon\n' +

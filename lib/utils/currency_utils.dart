@@ -10,24 +10,16 @@ bool validateAmount(String value) {
   return regex.hasMatch(value);
 }
 
-/// Formats a number as currency with proper thousand separators and decimal places
-String formatCurrency(String amount) {
-  if (amount.isEmpty) return '0.00';
+/// Format a numeric string with proper commas
+String formatCurrency(String value) {
+  if (value.isEmpty) return '0.00';
   
   try {
-    // Parse the amount
-    final double parsedAmount = double.parse(amount.replaceAll(',', ''));
-    
-    // Format using NumberFormat
-    final formatter = NumberFormat.currency(
-      locale: 'en_US',
-      symbol: '',
-      decimalDigits: 2,
-    );
-    
-    return formatter.format(parsedAmount);
+    final numericValue = double.parse(value.replaceAll(',', ''));
+    final formatter = NumberFormat('#,##0.00', 'en_US');
+    return formatter.format(numericValue);
   } catch (e) {
-    return amount;
+    return value;
   }
 }
 
@@ -37,15 +29,58 @@ double calculateFee(double amount, double feePercentage, double minimumFee) {
   return calculatedFee < minimumFee ? minimumFee : calculatedFee;
 }
 
-/// Formats a currency amount with its symbol
-String formatWithCurrencySymbol(double amount, String symbol) {
+/// Get currency symbol from currency code
+String getCurrencySymbol(String code) {
+  final Map<String, String> symbols = {
+    'USD': '\$',
+    'EUR': '€',
+    'GBP': '£',
+    'NGN': '₦',
+    'GHS': '₵',
+    'KES': 'KSh',
+    'ZAR': 'R',
+    'INR': '₹',
+    'PHP': '₱',
+    'MXN': '\$',
+    'CAD': 'C\$',
+    'AUD': 'A\$',
+  };
+  
+  return symbols[code] ?? code;
+}
+
+/// Format a numeric value with proper commas and currency symbol
+String formatWithCurrency(double value, String currencyCode) {
   final formatter = NumberFormat.currency(
     locale: 'en_US',
-    symbol: symbol,
+    symbol: getCurrencySymbol(currencyCode),
     decimalDigits: 2,
   );
+  return formatter.format(value);
+}
+
+/// Convert a string value to a formatted currency string
+String stringToCurrency(String value, String currencyCode) {
+  if (value.isEmpty) return '${getCurrencySymbol(currencyCode)} 0.00';
   
-  return formatter.format(amount);
+  try {
+    final numericValue = double.parse(value.replaceAll(',', ''));
+    return formatWithCurrency(numericValue, currencyCode);
+  } catch (e) {
+    return '${getCurrencySymbol(currencyCode)} $value';
+  }
+}
+
+/// Parse a currency string to a double value
+double parseCurrencyToDouble(String value) {
+  // Remove currency symbols and commas
+  final cleanedValue = value.replaceAll(RegExp(r'[^\d.]'), '');
+  
+  try {
+    return double.parse(cleanedValue);
+  } catch (e) {
+    return 0.0;
+  }
 }
 
 /// Checks if a string is a valid IBAN

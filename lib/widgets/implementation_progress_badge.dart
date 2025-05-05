@@ -3,61 +3,96 @@ import '../utils/progress_tracker.dart';
 
 /// A widget that displays the implementation status of a screen
 class ImplementationProgressBadge extends StatelessWidget {
-  final int screenNumber;
-  final bool showText;
+  final String status;
+  final Color color;
+  final bool showIcon;
+  final IconData? icon;
   final bool large;
+  final int? screenNumber;
 
   const ImplementationProgressBadge({
     Key? key,
-    required this.screenNumber,
-    this.showText = true,
+    required this.status,
+    required this.color,
+    this.showIcon = true,
+    this.icon,
     this.large = false,
+    this.screenNumber,
   }) : super(key: key);
+
+  /// Static constants for common statuses
+  static const completed = ImplementationProgressBadge(
+    status: 'Completed',
+    color: Colors.green,
+    icon: Icons.check_circle,
+  );
+
+  static const inProgress = ImplementationProgressBadge(
+    status: 'In Progress',
+    color: Color(0xFFFFB800),
+    icon: Icons.pending,
+  );
+
+  static const pending = ImplementationProgressBadge(
+    status: 'Pending',
+    color: Colors.grey,
+    icon: Icons.circle_outlined,
+  );
+
+  /// Creates a badge for a specific screen
+  static ImplementationProgressBadge forScreen(int screenNumber, {bool large = false}) {
+    final String statusText = AppProgressTracker.getScreenStatusText(screenNumber);
+    final Color statusColor = AppProgressTracker.getScreenStatusColor(screenNumber);
+    final IconData statusIcon = AppProgressTracker.getScreenStatusIconData(screenNumber);
+    
+    return ImplementationProgressBadge(
+      status: statusText,
+      color: statusColor,
+      icon: statusIcon,
+      large: large,
+      screenNumber: screenNumber,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final String statusText = AppProgressTracker.getScreenStatusText(screenNumber);
-    final Color statusColor = AppProgressTracker.getScreenStatusColor(screenNumber);
-    
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         // Status icon
-        AppProgressTracker.getScreenStatusIcon(screenNumber),
+        if (showIcon && icon != null) Icon(icon, size: large ? 18 : 16, color: color),
         
-        // Status text (optional)
-        if (showText) ...[
-          const SizedBox(width: 6),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: large ? 8 : 6,
-              vertical: large ? 4 : 2,
-            ),
-            decoration: BoxDecoration(
-              color: statusColor,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              statusText,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: large ? 12 : 10,
-                fontWeight: FontWeight.w500,
-              ),
+        // Status text
+        if (showIcon && icon != null) const SizedBox(width: 6),
+        Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: large ? 8 : 6,
+            vertical: large ? 4 : 2,
+          ),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            status,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: large ? 12 : 10,
+              fontWeight: FontWeight.w500,
             ),
           ),
-          
-          // Screen number (only if showing text and large version)
-          if (large) ...[
-            const SizedBox(width: 8),
-            Text(
-              'Screen #$screenNumber',
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontSize: 12,
-              ),
+        ),
+        
+        // Screen number (only if showing text and large version)
+        if (large && screenNumber != null) ...[
+          const SizedBox(width: 8),
+          Text(
+            'Screen #$screenNumber',
+            style: TextStyle(
+              color: Colors.grey.shade600,
+              fontSize: 12,
             ),
-          ],
+          ),
         ],
       ],
     );
@@ -145,24 +180,12 @@ class ImplementationProgressOverview extends StatelessWidget {
           if (!compact) ...[
             const SizedBox(height: 16),
             Row(
-              children: [
-                _buildLegendItem(
-                  icon: Icons.check_circle,
-                  color: Colors.green,
-                  label: 'Completed',
-                ),
-                const SizedBox(width: 16),
-                _buildLegendItem(
-                  icon: Icons.pending,
-                  color: const Color(0xFFFFB800),
-                  label: 'In Progress',
-                ),
-                const SizedBox(width: 16),
-                _buildLegendItem(
-                  icon: Icons.circle_outlined,
-                  color: Colors.grey,
-                  label: 'Pending',
-                ),
+              children: const [
+                ImplementationProgressBadge.completed,
+                SizedBox(width: 16),
+                ImplementationProgressBadge.inProgress,
+                SizedBox(width: 16),
+                ImplementationProgressBadge.pending,
               ],
             ),
           ],
@@ -250,19 +273,5 @@ class ImplementationProgressOverview extends StatelessWidget {
     );
   }
   
-  Widget _buildLegendItem({required IconData icon, required Color color, required String label}) {
-    return Row(
-      children: [
-        Icon(icon, size: 14, color: color),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.black87,
-          ),
-        ),
-      ],
-    );
-  }
+  // We no longer need this method as we're using ImplementationProgressBadge directly
 }

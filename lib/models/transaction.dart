@@ -1,20 +1,51 @@
 import 'package:flutter/foundation.dart';
 
+/// Transaction status enum
 enum TransactionStatus {
   pending,
   processing,
   completed,
   failed,
-  cancelled,
+  cancelled;
+  
+  String get displayName {
+    switch (this) {
+      case TransactionStatus.pending:
+        return 'Pending';
+      case TransactionStatus.processing:
+        return 'Processing';
+      case TransactionStatus.completed:
+        return 'Completed';
+      case TransactionStatus.failed:
+        return 'Failed';
+      case TransactionStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
 }
 
+/// Transaction type enum
 enum TransactionType {
   send,
   receive,
   exchange,
-  transfer,
+  transfer;
+  
+  String get displayName {
+    switch (this) {
+      case TransactionType.send:
+        return 'Send';
+      case TransactionType.receive:
+        return 'Receive';
+      case TransactionType.exchange:
+        return 'Exchange';
+      case TransactionType.transfer:
+        return 'Transfer';
+    }
+  }
 }
 
+/// Transaction model class
 class Transaction {
   final String id;
   final String? recipientName;
@@ -32,7 +63,8 @@ class Transaction {
   final String? recipientBank;
   final String? destinationCurrency;
 
-  Transaction({
+  /// Default constructor
+  const Transaction({
     required this.id,
     this.recipientName,
     this.recipientCountry,
@@ -50,28 +82,13 @@ class Transaction {
     this.destinationCurrency,
   });
 
-  // Total amount including fee
+  /// Total amount including fee
   double get totalAmount => amount + (fee ?? 0);
+  
+  /// Formatted status
+  String get statusText => status.displayName;
 
-  // Formatted status
-  String get statusText {
-    switch (status) {
-      case TransactionStatus.pending:
-        return 'Pending';
-      case TransactionStatus.processing:
-        return 'Processing';
-      case TransactionStatus.completed:
-        return 'Completed';
-      case TransactionStatus.failed:
-        return 'Failed';
-      case TransactionStatus.cancelled:
-        return 'Cancelled';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  // Factory constructor from JSON
+  /// Create from JSON
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
       id: json['id'],
@@ -83,16 +100,8 @@ class Transaction {
       sourceCurrency: json['sourceCurrency'] ?? json['currency'],
       fee: json['fee'] != null ? (json['fee'] as num).toDouble() : null,
       date: DateTime.parse(json['date']),
-      status: json['status'] != null
-          ? TransactionStatus.values.firstWhere(
-              (e) => e.toString().split('.').last == json['status'].toLowerCase(),
-              orElse: () => TransactionStatus.pending,
-            )
-          : TransactionStatus.completed,
-      type: TransactionType.values.firstWhere(
-        (type) => type.toString().split('.').last == json['type'].toLowerCase(),
-        orElse: () => TransactionType.transfer,
-      ),
+      status: _parseStatus(json['status']),
+      type: _parseType(json['type']),
       referenceNumber: json['referenceNumber'],
       description: json['description'],
       note: json['note'],
@@ -103,8 +112,36 @@ class Transaction {
       destinationCurrency: json['destinationCurrency'],
     );
   }
+  
+  /// Parse transaction status from string
+  static TransactionStatus _parseStatus(String? statusStr) {
+    if (statusStr == null) return TransactionStatus.completed;
+    
+    try {
+      return TransactionStatus.values.firstWhere(
+        (e) => e.name == statusStr.toLowerCase(),
+        orElse: () => TransactionStatus.pending,
+      );
+    } catch (_) {
+      return TransactionStatus.pending;
+    }
+  }
+  
+  /// Parse transaction type from string
+  static TransactionType _parseType(String? typeStr) {
+    if (typeStr == null) return TransactionType.transfer;
+    
+    try {
+      return TransactionType.values.firstWhere(
+        (e) => e.name == typeStr.toLowerCase(),
+        orElse: () => TransactionType.transfer,
+      );
+    } catch (_) {
+      return TransactionType.transfer;
+    }
+  }
 
-  // Convert to JSON
+  /// Convert to JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -114,8 +151,8 @@ class Transaction {
       'sourceCurrency': sourceCurrency,
       'fee': fee,
       'date': date.toIso8601String(),
-      'status': status.toString().split('.').last,
-      'type': type.toString().split('.').last,
+      'status': status.name,
+      'type': type.name,
       'referenceNumber': referenceNumber,
       'description': description,
       'note': note,
@@ -125,7 +162,7 @@ class Transaction {
     };
   }
 
-  // Copy with
+  /// Create a copy with changes
   Transaction copyWith({
     String? id,
     String? recipientName,
@@ -161,4 +198,19 @@ class Transaction {
       destinationCurrency: destinationCurrency ?? this.destinationCurrency,
     );
   }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    
+    return other is Transaction &&
+      other.id == id &&
+      other.date == date;
+  }
+  
+  @override
+  int get hashCode => id.hashCode ^ date.hashCode;
+  
+  @override
+  String toString() => 'Transaction $id: $sourceCurrency $amount';
 }

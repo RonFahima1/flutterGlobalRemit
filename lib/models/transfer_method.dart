@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Transfer method model class
 class TransferMethod {
   final String id;
   final String name;
@@ -11,6 +12,7 @@ class TransferMethod {
   final String? description;
   final bool isPopular;
   
+  /// Default constructor
   const TransferMethod({
     required this.id,
     required this.name,
@@ -24,19 +26,21 @@ class TransferMethod {
   });
   
   @override
-  bool operator ==(Object other) =>
-    identical(this, other) ||
-    other is TransferMethod &&
-    runtimeType == other.runtimeType &&
-    id == other.id;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    
+    return other is TransferMethod &&
+      other.id == id &&
+      other.name == name;
+  }
     
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => id.hashCode ^ name.hashCode;
   
   @override
-  String toString() => 'Transfer Method: $name (Fee: $fee)';
+  String toString() => 'Transfer Method: $name';
   
-  // Factory to create TransferMethod from JSON
+  /// Create from JSON
   factory TransferMethod.fromJson(Map<String, dynamic> json) {
     // Parse icon data
     IconData iconData;
@@ -68,7 +72,7 @@ class TransferMethod {
     );
   }
   
-  // Convert to JSON
+  /// Convert to JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -85,7 +89,7 @@ class TransferMethod {
     };
   }
   
-  // Create a copy with updated fields
+  /// Create a copy with changes
   TransferMethod copyWith({
     String? id,
     String? name,

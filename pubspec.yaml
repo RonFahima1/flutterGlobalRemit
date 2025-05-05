@@ -19,7 +19,7 @@ dependencies:
   page_transition: ^2.1.0
   http: ^1.1.0
   shared_preferences: ^2.2.1
-  flutter_secure_storage: ^9.0.0
+  flutter_secure_storage: ^8.1.0  # Downgraded from ^9.0.0
   device_info_plus: ^8.1.0
   path_provider: ^2.0.14
   url_launcher: ^6.1.10
@@ -55,26 +55,27 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - .env
   
-  fonts:
-    - family: SF Pro Text
-      fonts:
-        - asset: assets/fonts/SF-Pro-Text-Regular.otf
-          weight: 400
-        - asset: assets/fonts/SF-Pro-Text-Medium.otf
-          weight: 500
-        - asset: assets/fonts/SF-Pro-Text-Semibold.otf
-          weight: 600
-        - asset: assets/fonts/SF-Pro-Text-Bold.otf
-          weight: 700
-    - family: SF Pro Display
-      fonts:
-        - asset: assets/fonts/SF-Pro-Display-Regular.otf
-          weight: 400
-        - asset: assets/fonts/SF-Pro-Display-Medium.otf
-          weight: 500
-        - asset: assets/fonts/SF-Pro-Display-Semibold.otf
-          weight: 600
-        - asset: assets/fonts/SF-Pro-Display-Bold.otf
-          weight: 700
+  # Temporarily removed custom fonts since the files are missing
+  # Use system fonts instead
+  # fonts:
+  #   - family: SF Pro Text
+  #     fonts:
+  #       - asset: assets/fonts/SF-Pro-Text-Regular.otf
+  #         weight: 400
+  #       - asset: assets/fonts/SF-Pro-Text-Medium.otf
+  #         weight: 500
+  #       - asset: assets/fonts/SF-Pro-Text-Semibold.otf
+  #         weight: 600
+  #       - asset: assets/fonts/SF-Pro-Text-Bold.otf
+  #         weight: 700
+  #   - family: SF Pro Display
+  #     fonts:
+  #       - asset: assets/fonts/SF-Pro-Display-Regular.otf
+  #         weight: 400
+  #       - asset: assets/fonts/SF-Pro-Display-Medium.otf
+  #         weight: 500
+  #       - asset: assets/fonts/SF-Pro-Display-Semibold.otf
+  #         weight: 600
+  #       - asset: assets/fonts/SF-Pro-Display-Bold.otf
+  #         weight: 700

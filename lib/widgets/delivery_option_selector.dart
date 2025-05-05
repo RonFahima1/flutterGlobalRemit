@@ -18,14 +18,14 @@ class DeliveryOptionSelector extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.grey.shade100,
+          border: Border.all(color: Colors.grey.shade300),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
             'No delivery options available for this destination',
             style: TextStyle(
-              color: Colors.grey,
+              color: Colors.grey.shade600,
               fontSize: 14,
             ),
             textAlign: TextAlign.center,
@@ -38,17 +38,16 @@ class DeliveryOptionSelector extends StatelessWidget {
       children: options.map((option) {
         final isSelected = selectedOption == option;
         
-        return Card(
+        return Container(
           margin: const EdgeInsets.only(bottom: 8),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: BorderSide(
+          decoration: BoxDecoration(
+            border: Border.all(
               color: isSelected ? const Color(0xFF0066CC) : Colors.grey.shade300,
-              width: isSelected ? 2.0 : 1.0,
+              width: isSelected ? 2 : 1,
             ),
+            borderRadius: BorderRadius.circular(8),
+            color: isSelected ? const Color(0xFFF0F7FF) : Colors.white,
           ),
-          color: isSelected ? const Color(0xFFF0F7FF) : Colors.white,
           child: InkWell(
             onTap: () => onOptionSelected(option),
             borderRadius: BorderRadius.circular(8),
@@ -56,18 +55,17 @@ class DeliveryOptionSelector extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  // Option icon based on delivery type
                   Container(
-                    width: 40,
-                    height: 40,
+                    width: 32,
+                    height: 32,
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFFE6F0FF) : Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(20),
+                      color: isSelected ? const Color(0xFFDCEAFF) : Colors.grey.shade100,
+                      shape: BoxShape.circle,
                     ),
                     child: Icon(
                       _getIconForDeliveryOption(option),
-                      color: isSelected ? const Color(0xFF0066CC) : Colors.grey.shade700,
-                      size: 20,
+                      color: isSelected ? const Color(0xFF0066CC) : Colors.grey.shade600,
+                      size: 18,
                     ),
                   ),
                   
@@ -79,7 +77,7 @@ class DeliveryOptionSelector extends StatelessWidget {
                       option,
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                        fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
                         color: isSelected ? const Color(0xFF0066CC) : Colors.black87,
                       ),
                     ),
@@ -109,13 +107,15 @@ class DeliveryOptionSelector extends StatelessWidget {
     final lowerOption = option.toLowerCase();
     
     if (lowerOption.contains('instant')) {
-      return Icons.flash_on;
+      return Icons.flash_on_outlined;
     } else if (lowerOption.contains('express')) {
-      return Icons.directions_run;
+      return Icons.speed_outlined;
     } else if (lowerOption.contains('imps') || lowerOption.contains('rtgs') || lowerOption.contains('neft')) {
       return Icons.swap_horiz;
+    } else if (lowerOption.contains('standard')) {
+      return Icons.access_time_outlined;
     } else {
-      return Icons.schedule;  // Standard delivery
+      return Icons.local_shipping_outlined;
     }
   }
 }

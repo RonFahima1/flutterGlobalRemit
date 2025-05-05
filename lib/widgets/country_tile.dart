@@ -3,6 +3,7 @@ import 'package:country_picker/country_picker.dart';
 
 class CountryTile extends StatelessWidget {
   final Country country;
+  final Function(Country)? onCountrySelected;
   final VoidCallback? onTap;
   final bool isSelected;
   final bool showPopularity;
@@ -11,6 +12,7 @@ class CountryTile extends StatelessWidget {
   const CountryTile({
     Key? key,
     required this.country,
+    this.onCountrySelected,
     this.onTap,
     this.isSelected = false,
     this.showPopularity = false,
@@ -31,7 +33,7 @@ class CountryTile extends StatelessWidget {
       ),
       color: isSelected ? const Color(0xFFF0F7FF) : Colors.white,
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap ?? (onCountrySelected != null ? () => onCountrySelected!(country) : null),
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -78,6 +80,16 @@ class CountryTile extends StatelessWidget {
                         color: isSelected ? const Color(0xFF0066CC) : Colors.black87,
                       ),
                     ),
+                    if (!showPopularity) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        'Dial code: ${country.phoneCode}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                    ],
                     if (showPopularity && popularity != null) ...[
                       const SizedBox(height: 4),
                       Row(

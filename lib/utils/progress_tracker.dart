@@ -12,6 +12,11 @@ class AppProgressTracker {
   // Screens currently in progress
   static const List<int> inProgressScreens = [18, 19];
   
+  // Status constants
+  static const String statusCompleted = 'COMPLETED';
+  static const String statusInProgress = 'IN PROGRESS';
+  static const String statusPending = 'PENDING';
+  
   // Implementation phases with their respective screens
   static const Map<String, List<int>> phases = {
     'Core & Authentication': [1, 2, 3, 4, 5, 6, 7],
@@ -68,36 +73,52 @@ class AppProgressTracker {
     41: 'About & Legal Information Screen',
   };
   
-  /// Get the screen status icon
-  static Widget getScreenStatusIcon(int screenNumber) {
-    if (screenNumber <= completedScreens) {
-      return const Icon(Icons.check_circle, color: Colors.green, size: 18);
-    } else if (inProgressScreens.contains(screenNumber)) {
-      return const Icon(Icons.pending, color: Color(0xFFFFB800), size: 18);
-    } else {
-      return const Icon(Icons.circle_outlined, color: Colors.grey, size: 18);
-    }
-  }
-  
   /// Get the screen status text
   static String getScreenStatusText(int screenNumber) {
     if (screenNumber <= completedScreens) {
-      return 'COMPLETED';
+      return statusCompleted;
     } else if (inProgressScreens.contains(screenNumber)) {
-      return 'IN PROGRESS';
+      return statusInProgress;
     } else {
-      return 'PENDING';
+      return statusPending;
     }
+  }
+  
+  /// Get the screen status icon data
+  static IconData getScreenStatusIconData(int screenNumber) {
+    final status = getScreenStatusText(screenNumber);
+    
+    switch (status) {
+      case statusCompleted:
+        return Icons.check_circle;
+      case statusInProgress:
+        return Icons.pending;
+      case statusPending:
+      default:
+        return Icons.circle_outlined;
+    }
+  }
+  
+  /// Get the screen status icon
+  static Widget getScreenStatusIcon(int screenNumber) {
+    final color = getScreenStatusColor(screenNumber);
+    final iconData = getScreenStatusIconData(screenNumber);
+    
+    return Icon(iconData, color: color, size: 18);
   }
   
   /// Get the screen status color
   static Color getScreenStatusColor(int screenNumber) {
-    if (screenNumber <= completedScreens) {
-      return Colors.green;
-    } else if (inProgressScreens.contains(screenNumber)) {
-      return const Color(0xFFFFB800);
-    } else {
-      return Colors.grey;
+    final status = getScreenStatusText(screenNumber);
+    
+    switch (status) {
+      case statusCompleted:
+        return Colors.green;
+      case statusInProgress:
+        return const Color(0xFFFFB800);
+      case statusPending:
+      default:
+        return Colors.grey;
     }
   }
   
@@ -146,5 +167,37 @@ class AppProgressTracker {
       }
     }
     return null;
+  }
+}
+
+/// A custom progress indicator widget for the app
+class AppProgressIndicator extends StatelessWidget {
+  final double value;
+  final Color color;
+  
+  const AppProgressIndicator({
+    Key? key,
+    required this.value,
+    required this.color,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 8,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: FractionallySizedBox(
+        widthFactor: value.clamp(0.0, 1.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+      ),
+    );
   }
 }

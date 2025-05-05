@@ -29,7 +29,7 @@ class CountryService {
         {'code': 'INR', 'symbol': '₹', 'name': 'Indian Rupee'},
       ],
       'MX': [
-        {'code': 'MXN', 'symbol': '$', 'name': 'Mexican Peso'},
+        {'code': 'MXN', 'symbol': '\$', 'name': 'Mexican Peso'},
       ],
       'PH': [
         {'code': 'PHP', 'symbol': '₱', 'name': 'Philippine Peso'},
@@ -41,10 +41,10 @@ class CountryService {
         {'code': 'EUR', 'symbol': '€', 'name': 'Euro'},
       ],
       'CA': [
-        {'code': 'CAD', 'symbol': 'C$', 'name': 'Canadian Dollar'},
+        {'code': 'CAD', 'symbol': 'C\$', 'name': 'Canadian Dollar'},
       ],
       'AU': [
-        {'code': 'AUD', 'symbol': 'A$', 'name': 'Australian Dollar'},
+        {'code': 'AUD', 'symbol': 'A\$', 'name': 'Australian Dollar'},
       ],
     };
     
@@ -192,7 +192,7 @@ class CountryService {
         'region': 'Africa',
         'requirements': [
           'Valid ID required for cash pickup',
-          'Transfers above $500 require KYC verification',
+          'Transfers above \$500 require KYC verification',
         ],
         'popularCities': ['Lagos', 'Abuja', 'Kano', 'Ibadan'],
       },
@@ -203,7 +203,7 @@ class CountryService {
         'region': 'Africa',
         'requirements': [
           'Valid ID required for cash pickup',
-          'Transfers above $500 require KYC verification',
+          'Transfers above \$500 require KYC verification',
         ],
         'popularCities': ['Accra', 'Kumasi', 'Tamale', 'Takoradi'],
       },
@@ -214,7 +214,7 @@ class CountryService {
         'region': 'Africa',
         'requirements': [
           'Valid ID required for cash pickup',
-          'Transfers above $500 require KYC verification',
+          'Transfers above \$500 require KYC verification',
         ],
         'popularCities': ['Nairobi', 'Mombasa', 'Kisumu', 'Nakuru'],
       },
@@ -224,7 +224,7 @@ class CountryService {
         'dialCode': '+91',
         'region': 'Asia',
         'requirements': [
-          'PAN card required for transfers above $1000',
+          'PAN card required for transfers above \$1000',
           'Aadhaar verification for certain services',
         ],
         'popularCities': ['Mumbai', 'Delhi', 'Bangalore', 'Chennai'],

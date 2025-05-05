@@ -80,6 +80,7 @@ class TransferService {
           email: 'john.smith@example.com',
           phoneNumber: '+1 234 567 8901',
           country: 'United States',
+          countryCode: 'US',
           isFavorite: true,
           createdAt: DateTime.now().subtract(const Duration(days: 30)),
         ),
@@ -91,6 +92,7 @@ class TransferService {
           relationship: 'Friend',
           email: 'maria.r@example.com',
           country: 'Spain',
+          countryCode: 'ES',
           createdAt: DateTime.now().subtract(const Duration(days: 15)),
         ),
         Beneficiary(
@@ -101,6 +103,7 @@ class TransferService {
           relationship: 'Business',
           phoneNumber: '+233 12 345 6789',
           country: 'Ghana',
+          countryCode: 'GH',
           isFavorite: true,
           createdAt: DateTime.now().subtract(const Duration(days: 7)),
         ),
@@ -112,11 +115,123 @@ class TransferService {
           relationship: 'Family',
           phoneNumber: '+234 80 1234 5678',
           country: 'Nigeria',
+          countryCode: 'NG',
           createdAt: DateTime.now().subtract(const Duration(days: 60)),
         ),
       ];
     } catch (e) {
       throw Exception('Failed to get beneficiaries: $e');
+    }
+  }
+  
+  /// Get beneficiaries by country
+  Future<List<Beneficiary>> getBeneficiariesByCountry(String countryCode) async {
+    try {
+      // This would be an API call in a real application
+      // Simulating API response for development
+      await Future.delayed(const Duration(milliseconds: 800));
+      
+      // Country specific beneficiaries
+      final Map<String, List<Beneficiary>> countryBeneficiaries = {
+        'US': [
+          Beneficiary(
+            id: 'ben_001',
+            name: 'John Smith',
+            accountNumber: '1234567890',
+            bankName: 'Global Bank',
+            relationship: 'Family',
+            email: 'john.smith@example.com',
+            phoneNumber: '+1 234 567 8901',
+            country: 'United States',
+            countryCode: 'US',
+            isFavorite: true,
+            createdAt: DateTime.now().subtract(const Duration(days: 30)),
+          ),
+        ],
+        'ES': [
+          Beneficiary(
+            id: 'ben_002',
+            name: 'Maria Rodriguez',
+            accountNumber: '2345678901',
+            bankName: 'Euro Bank',
+            relationship: 'Friend',
+            email: 'maria.r@example.com',
+            country: 'Spain',
+            countryCode: 'ES',
+            createdAt: DateTime.now().subtract(const Duration(days: 15)),
+          ),
+        ],
+        'GH': [
+          Beneficiary(
+            id: 'ben_003',
+            name: 'Kwame Asante',
+            accountNumber: '3456789012',
+            bankName: 'Ghana Commercial Bank',
+            relationship: 'Business',
+            phoneNumber: '+233 12 345 6789',
+            country: 'Ghana',
+            countryCode: 'GH',
+            isFavorite: true,
+            createdAt: DateTime.now().subtract(const Duration(days: 7)),
+          ),
+          Beneficiary(
+            id: 'gh1',
+            name: 'Kofi Mensah',
+            accountNumber: '1122334455',
+            bankName: 'Ecobank',
+            relationship: 'Family',
+            phoneNumber: '+233 24 123 4567',
+            country: 'Ghana',
+            countryCode: 'GH',
+            createdAt: DateTime.now().subtract(const Duration(days: 45)),
+          ),
+        ],
+        'NG': [
+          Beneficiary(
+            id: 'ben_004',
+            name: 'Aisha Mohammed',
+            accountNumber: '4567890123',
+            bankName: 'First Bank',
+            relationship: 'Family',
+            phoneNumber: '+234 80 1234 5678',
+            country: 'Nigeria',
+            countryCode: 'NG',
+            createdAt: DateTime.now().subtract(const Duration(days: 60)),
+          ),
+          Beneficiary(
+            id: 'ng1',
+            name: 'Chidimma Okonkwo',
+            accountNumber: '0123456789',
+            bankName: 'Access Bank',
+            relationship: 'Business',
+            phoneNumber: '+234 801 234 5678',
+            email: 'chidimma.ok@example.com',
+            country: 'Nigeria',
+            countryCode: 'NG',
+            isFavorite: true,
+            createdAt: DateTime.now().subtract(const Duration(days: 20)),
+          ),
+        ],
+        'IN': [
+          Beneficiary(
+            id: 'in1',
+            name: 'Raj Patel',
+            accountNumber: '6789012345',
+            bankName: 'HDFC Bank',
+            relationship: 'Business',
+            phoneNumber: '+91 98765 43210',
+            email: 'raj.patel@example.com',
+            country: 'India',
+            countryCode: 'IN',
+            createdAt: DateTime.now().subtract(const Duration(days: 25)),
+          ),
+        ],
+      };
+      
+      // Return beneficiaries for the specified country, or empty list if none exist
+      return countryBeneficiaries[countryCode] ?? [];
+    } catch (e) {
+      throw Exception('Failed to get beneficiaries by country: $e');
     }
   }
   

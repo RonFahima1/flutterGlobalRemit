@@ -1,28 +1,19 @@
+import 'package:flutter/foundation.dart';
+
+/// Currency model class
 class Currency {
   final String code;
   final String symbol;
   final String name;
   
+  /// Default constructor
   const Currency({
     required this.code,
     required this.symbol,
     required this.name,
   });
   
-  @override
-  bool operator ==(Object other) =>
-    identical(this, other) ||
-    other is Currency &&
-    runtimeType == other.runtimeType &&
-    code == other.code;
-    
-  @override
-  int get hashCode => code.hashCode;
-  
-  @override
-  String toString() => '$name ($code)';
-  
-  // Factory to create Currency from JSON
+  /// Create from JSON
   factory Currency.fromJson(Map<String, dynamic> json) {
     return Currency(
       code: json['code'] as String,
@@ -31,7 +22,7 @@ class Currency {
     );
   }
   
-  // Convert to JSON
+  /// Convert to JSON
   Map<String, dynamic> toJson() {
     return {
       'code': code,
@@ -40,7 +31,7 @@ class Currency {
     };
   }
   
-  // Create a copy with updated fields
+  /// Create a copy with changes
   Currency copyWith({
     String? code,
     String? symbol,
@@ -52,4 +43,20 @@ class Currency {
       name: name ?? this.name,
     );
   }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    
+    return other is Currency &&
+      other.code == code &&
+      other.symbol == symbol &&
+      other.name == name;
+  }
+  
+  @override
+  int get hashCode => code.hashCode ^ symbol.hashCode ^ name.hashCode;
+  
+  @override
+  String toString() => '$name ($code)';
 }
