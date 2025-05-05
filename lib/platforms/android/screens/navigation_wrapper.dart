@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../providers/auth_provider.dart';
-import '../../../screens/base_navigation_wrapper.dart';
+import '../../../screens/navigation_content_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class AndroidNavigationWrapper extends StatefulWidget {
@@ -15,7 +15,7 @@ class _AndroidNavigationWrapperState extends State<AndroidNavigationWrapper> {
   final List<String> _pageTitles = ['Dashboard', 'Transfers', 'Activity', 'Profile'];
 
   Widget _getPage(int index) {
-    return BaseNavigationWrapper(
+    return NavigationContentWrapper(
       title: _pageTitles[index],
       selectedIndex: _selectedIndex,
     );

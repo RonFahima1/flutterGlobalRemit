@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../screens/base_navigation_wrapper.dart';
+import '../../../screens/navigation_content_wrapper.dart';
 import '../../../utils/platform_utils.dart';
 import '../../../theme/theme_constants.dart';
 import '../../../theme/colors.dart';
@@ -20,9 +20,24 @@ class _IOSNavigationWrapperState extends State<IOSNavigationWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    // Resolve colors based on brightness
+    final primaryBackgroundColor = isDark 
+        ? GlobalRemitColors.primaryBackgroundDark 
+        : GlobalRemitColors.primaryBackgroundLight;
+        
+    final primaryBlueColor = isDark
+        ? GlobalRemitColors.primaryBlueDark
+        : GlobalRemitColors.primaryBlueLight;
+        
+    final gray2Color = isDark
+        ? GlobalRemitColors.gray2Dark
+        : GlobalRemitColors.gray2Light;
+
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
-        backgroundColor: GlobalRemitColors.primaryBackground(context),
+        backgroundColor: primaryBackgroundColor,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.house),
@@ -46,8 +61,8 @@ class _IOSNavigationWrapperState extends State<IOSNavigationWrapper> {
           ),
         ],
         currentIndex: _selectedIndex,
-        activeColor: GlobalRemitColors.primaryBlue(context),
-        inactiveColor: GlobalRemitColors.gray2(context),
+        activeColor: primaryBlueColor,
+        inactiveColor: gray2Color,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
@@ -56,7 +71,7 @@ class _IOSNavigationWrapperState extends State<IOSNavigationWrapper> {
       ),
       tabBuilder: (context, index) {
         return CupertinoTabView(
-          builder: (context) => BaseNavigationWrapper(
+          builder: (context) => NavigationContentWrapper(
             title: _pageTitles[index],
             selectedIndex: index,
             appBarLeading: Image.asset(

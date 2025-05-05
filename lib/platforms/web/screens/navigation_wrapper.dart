@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../screens/base_navigation_wrapper.dart';
+import '../../../screens/navigation_content_wrapper.dart';
 import '../../../utils/platform_utils.dart';
 import '../../../theme/theme_constants.dart';
 import '../../../theme/colors.dart';
@@ -19,8 +19,8 @@ class _WebNavigationWrapperState extends State<WebNavigationWrapper> {
   final List<String> _pageNames = ['Home', 'Send', 'Receive', 'Profile'];
 
   Widget _getPage(int index) {
-    // Using BaseNavigationWrapper to display the page content
-    return BaseNavigationWrapper(
+    // Using NavigationContentWrapper to display the page content
+    return NavigationContentWrapper(
       title: _pageNames[index],
       selectedIndex: _selectedIndex,
     );
@@ -30,6 +30,15 @@ class _WebNavigationWrapperState extends State<WebNavigationWrapper> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    
+    // Resolve background colors based on brightness
+    final primaryBackgroundColor = isDark 
+        ? GlobalRemitColors.primaryBackgroundDark 
+        : GlobalRemitColors.primaryBackgroundLight;
+        
+    final secondaryBackgroundColor = isDark
+        ? GlobalRemitColors.secondaryBackgroundDark
+        : GlobalRemitColors.secondaryBackgroundLight;
     
     return Scaffold(
       body: Row(
@@ -42,7 +51,7 @@ class _WebNavigationWrapperState extends State<WebNavigationWrapper> {
                 _selectedIndex = index;
               });
             },
-            backgroundColor: GlobalRemitColors.primaryBackground(context),
+            backgroundColor: primaryBackgroundColor,
             minWidth: 85,
             extended: MediaQuery.of(context).size.width > 1200,
             labelType: NavigationRailLabelType.none,
@@ -87,7 +96,7 @@ class _WebNavigationWrapperState extends State<WebNavigationWrapper> {
                   height: 60,
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   decoration: BoxDecoration(
-                    color: GlobalRemitColors.secondaryBackground(context),
+                    color: secondaryBackgroundColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.05),
@@ -173,7 +182,7 @@ class _WebNavigationWrapperState extends State<WebNavigationWrapper> {
                 // Page Content
                 Expanded(
                   child: Container(
-                    color: GlobalRemitColors.secondaryBackground(context),
+                    color: secondaryBackgroundColor,
                     child: _getPage(_selectedIndex),
                   ),
                 ),

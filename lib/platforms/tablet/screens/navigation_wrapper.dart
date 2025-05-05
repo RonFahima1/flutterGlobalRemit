@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/theme_provider.dart';
-import '../../../screens/base_navigation_wrapper.dart';
+import '../../../screens/navigation_content_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class TabletNavigationWrapper extends StatefulWidget {
@@ -28,7 +28,8 @@ class _TabletNavigationWrapperState extends State<TabletNavigationWrapper> {
   ];
 
   Widget _getPage(int index) {
-    return BaseNavigationWrapper(
+    // Using NavigationContentWrapper instead of BaseNavigationWrapper
+    return NavigationContentWrapper(
       title: _pageTitles[index],
       selectedIndex: index,
       appBarLeading: Image.asset(

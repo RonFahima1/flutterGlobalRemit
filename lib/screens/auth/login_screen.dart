@@ -6,7 +6,6 @@ import '../../providers/theme_provider.dart';
 import '../../utils/platform_utils.dart';
 import '../../theme/theme_constants.dart';
 import '../../theme/colors.dart';
-import '../base_navigation_wrapper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -121,89 +120,90 @@ class _LoginScreenState extends State<LoginScreen> {
     
     debugPrint('LoginScreen: Building UI');
     
-    return BaseNavigationWrapper(
-      title: 'Login',
-      appBarLeading: Image.asset(
-        isDark 
-          ? 'assets/images/logo-dark.svg.png' 
-          : 'assets/images/logo-light.svg.png',
-        height: 24,
-        errorBuilder: (context, error, stackTrace) {
-          // Fallback if logo images are not available
-          return Container(
-            height: 24,
-            width: 24,
-            color: isDark ? Colors.white24 : Colors.black12,
-            child: Icon(
-              Icons.account_balance_wallet,
-              size: 16,
-              color: theme.colorScheme.primary,
-            ),
-          );
-        },
-      ),
-      appBarActions: [
-        Consumer<ThemeProvider>(
-          builder: (context, themeProvider, _) {
-            IconData icon;
-            String modeLabel;
-            switch (themeProvider.themeMode) {
-              case ThemeMode.light:
-                icon = Icons.light_mode;
-                modeLabel = 'Light';
-                break;
-              case ThemeMode.dark:
-                icon = Icons.dark_mode;
-                modeLabel = 'Dark';
-                break;
-              default:
-                icon = Icons.brightness_auto;
-                modeLabel = 'System';
-            }
-
-            return PopupMenuButton<ThemeMode>(
-              tooltip: 'Set theme',
-              icon: Icon(icon, color: theme.colorScheme.onBackground),
-              onSelected: (mode) {
-                themeProvider.setThemeMode(mode);
-              },
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: ThemeMode.light,
-                  child: Row(
-                    children: [
-                      Icon(Icons.light_mode, color: Colors.amber.shade700),
-                      const SizedBox(width: 8),
-                      const Text('Light'),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: ThemeMode.dark,
-                  child: Row(
-                    children: [
-                      Icon(Icons.dark_mode, color: Colors.deepPurple.shade200),
-                      const SizedBox(width: 8),
-                      const Text('Dark'),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: ThemeMode.system,
-                  child: Row(
-                    children: [
-                      Icon(Icons.brightness_auto, color: Colors.grey),
-                      const SizedBox(width: 8),
-                      const Text('System'),
-                    ],
-                  ),
-                ),
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
+        leading: Image.asset(
+          isDark 
+            ? 'assets/images/logo-dark.svg.png' 
+            : 'assets/images/logo-light.svg.png',
+          height: 24,
+          errorBuilder: (context, error, stackTrace) {
+            // Fallback if logo images are not available
+            return Container(
+              height: 24,
+              width: 24,
+              color: isDark ? Colors.white24 : Colors.black12,
+              child: Icon(
+                Icons.account_balance_wallet,
+                size: 16,
+                color: theme.colorScheme.primary,
+              ),
             );
           },
         ),
-      ],
-      child: Scaffold(
+        actions: [
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, _) {
+              IconData icon;
+              String modeLabel;
+              switch (themeProvider.themeMode) {
+                case ThemeMode.light:
+                  icon = Icons.light_mode;
+                  modeLabel = 'Light';
+                  break;
+                case ThemeMode.dark:
+                  icon = Icons.dark_mode;
+                  modeLabel = 'Dark';
+                  break;
+                default:
+                  icon = Icons.brightness_auto;
+                  modeLabel = 'System';
+              }
+
+              return PopupMenuButton<ThemeMode>(
+                tooltip: 'Set theme',
+                icon: Icon(icon, color: theme.colorScheme.onBackground),
+                onSelected: (mode) {
+                  themeProvider.setThemeMode(mode);
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: ThemeMode.light,
+                    child: Row(
+                      children: [
+                        Icon(Icons.light_mode, color: Colors.amber.shade700),
+                        const SizedBox(width: 8),
+                        const Text('Light'),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: ThemeMode.dark,
+                    child: Row(
+                      children: [
+                        Icon(Icons.dark_mode, color: Colors.deepPurple.shade200),
+                        const SizedBox(width: 8),
+                        const Text('Dark'),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: ThemeMode.system,
+                    child: Row(
+                      children: [
+                        Icon(Icons.brightness_auto, color: Colors.grey),
+                        const SizedBox(width: 8),
+                        const Text('System'),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
         backgroundColor: theme.scaffoldBackgroundColor,
         body: SafeArea(
         child: Center(
@@ -596,6 +596,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    ));
+    );
   }
 }

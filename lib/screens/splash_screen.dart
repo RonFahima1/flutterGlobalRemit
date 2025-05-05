@@ -10,23 +10,42 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
   late Timer _timeoutTimer;
 
   @override
   void initState() {
     super.initState();
+    
+    // Set up animations
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeIn,
+      ),
+    );
+    
+    _animationController.forward();
+    
     // Add a timeout to prevent infinite loading
     _timeoutTimer = Timer(const Duration(seconds: 5), () {
       _navigateToNextScreen(isTimeout: true);
     });
     
-    // Check authentication status after a short delay
-    Future.delayed(const Duration(milliseconds: 500), _checkAuthAndNavigate);
+    // Check authentication status after animations play
+    Timer(const Duration(seconds: 2), _checkAuthAndNavigate);
   }
 
   @override
   void dispose() {
+    _animationController.dispose();
     _timeoutTimer.cancel();
     super.dispose();
   }
@@ -76,39 +95,52 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // App logo
-            Image.asset(
-              Theme.of(context).brightness == Brightness.dark 
-                ? 'assets/images/logo-light.svg.png' 
-                : 'assets/images/logo-dark.svg.png',
-              height: 120,
-              width: 120,
-            ),
-            const SizedBox(height: 32),
-            
-            // App name
-            Text(
-              'Global Remit',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // App logo
+              Image.asset(
+                isDark ? 'assets/images/logo-light.svg.png' : 'assets/images/logo-dark.svg.png',
+                height: 150,
+                width: 150,
               ),
-            ),
-            
-            const SizedBox(height: 48),
-            
-            // Loading indicator
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                Theme.of(context).colorScheme.primary,
+              const SizedBox(height: 24),
+              
+              // App name
+              Text(
+                'Global Remit',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+              
+              const SizedBox(height: 12),
+              
+              // App Tagline
+              Text(
+                'Send money globally, instantly',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              
+              const SizedBox(height: 48),
+              
+              // Loading indicator
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
