@@ -5,7 +5,8 @@ import '../models/beneficiary.dart';
 import '../models/currency.dart';
 import '../models/transfer_method.dart';
 import '../services/transfer_service.dart';
-import '../services/country_service.dart';
+// Import with alias to avoid conflict
+import '../services/country_service.dart' as app_service;
 import '../utils/currency_utils.dart';
 import '../utils/progress_tracker.dart';
 import '../widgets/implementation_progress_badge.dart';
@@ -13,6 +14,7 @@ import '../widgets/country_tile.dart';
 import '../widgets/currency_selector.dart';
 import '../widgets/transfer_method_selector.dart';
 import '../widgets/delivery_option_selector.dart';
+import 'dart:math' show min;
 
 class InternationalRemittanceScreen extends StatefulWidget {
   const InternationalRemittanceScreen({Key? key}) : super(key: key);
@@ -53,7 +55,8 @@ class _InternationalRemittanceScreenState extends State<InternationalRemittanceS
   
   // Services
   final TransferService _transferService = TransferService();
-  final CountryService _countryService = CountryService();
+  // Use the aliased import for CountryService
+  final app_service.CountryService _countryService = app_service.CountryService();
   
   @override
   void initState() {
@@ -144,7 +147,7 @@ class _InternationalRemittanceScreenState extends State<InternationalRemittanceS
   }
   
   void _updateExchangeRate() async {
-    if (_sourceCurrency == null || _targetCurrency == null) return;
+    if (_targetCurrency == null) return;
     
     setState(() {
       _isLoading = true;
@@ -434,7 +437,7 @@ class _InternationalRemittanceScreenState extends State<InternationalRemittanceS
                             Expanded(
                               child: TextField(
                                 controller: _amountController,
-                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                 textAlign: TextAlign.right,
                                 decoration: const InputDecoration(
                                   hintText: '0.00',
@@ -869,23 +872,9 @@ class _InternationalRemittanceScreenState extends State<InternationalRemittanceS
     );
   }
   
-  // Helper methods
-  String _formatAccountNumber(String accountNumber) {
-    if (accountNumber.length <= 4) {
-      return accountNumber;
-    }
-    return '•••• ${accountNumber.substring(accountNumber.length - 4)}';
-  }
-  
-  String _getBeneficiaryInitials(String name) {
-    final names = name.split(' ');
-    if (names.length > 1) {
-      return '${names[0][0]}${names[1][0]}'.toUpperCase();
-    }
-    return name.substring(0, min(2, name.length)).toUpperCase();
-  }
-  
+  // Helper method to get beneficiary color
   Color _getBeneficiaryColor(String id) {
+    // Simple color generation based on id
     final colors = [
       const Color(0xFF4ECDC4),
       const Color(0xFFFF6B6B),
@@ -904,7 +893,22 @@ class _InternationalRemittanceScreenState extends State<InternationalRemittanceS
     return colors[hashCode % colors.length];
   }
   
-  int min(int a, int b) => a < b ? a : b;
+  // Helper method to get beneficiary initials
+  String _getBeneficiaryInitials(String name) {
+    final names = name.split(' ');
+    if (names.length > 1) {
+      return '${names[0][0]}${names[1][0]}'.toUpperCase();
+    }
+    return name.substring(0, min(2, name.length)).toUpperCase();
+  }
+  
+  // Helper method to format account number for display
+  String _formatAccountNumber(String accountNumber) {
+    if (accountNumber.length <= 4) {
+      return accountNumber;
+    }
+    return '•••• ${accountNumber.substring(accountNumber.length - 4)}';
+  }
 }
 
 class ProgressIndicator extends StatelessWidget {

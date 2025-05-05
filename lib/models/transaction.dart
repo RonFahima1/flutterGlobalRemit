@@ -29,7 +29,12 @@ enum TransactionType {
   send,
   receive,
   exchange,
-  transfer;
+  transfer,
+  bankTransfer,
+  mobileMoney,
+  cashPickup,
+  cardPayment,
+  other;
   
   String get displayName {
     switch (this) {
@@ -41,6 +46,16 @@ enum TransactionType {
         return 'Exchange';
       case TransactionType.transfer:
         return 'Transfer';
+      case TransactionType.bankTransfer:
+        return 'Bank Transfer';
+      case TransactionType.mobileMoney:
+        return 'Mobile Money';
+      case TransactionType.cashPickup:
+        return 'Cash Pickup';
+      case TransactionType.cardPayment:
+        return 'Card Payment';
+      case TransactionType.other:
+        return 'Other';
     }
   }
 }
@@ -131,9 +146,13 @@ class Transaction {
   static TransactionType _parseType(String? typeStr) {
     if (typeStr == null) return TransactionType.transfer;
     
+    // Handle legacy uppercase type values
+    if (typeStr.toUpperCase() == 'SEND') return TransactionType.send;
+    if (typeStr.toUpperCase() == 'RECEIVE') return TransactionType.receive;
+    
     try {
       return TransactionType.values.firstWhere(
-        (e) => e.name == typeStr.toLowerCase(),
+        (e) => e.name.toLowerCase() == typeStr.toLowerCase(),
         orElse: () => TransactionType.transfer,
       );
     } catch (_) {

@@ -1,24 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/platform_utils.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
+  final String _prefKey = 'theme_mode';
+
+  ThemeProvider() {
+    _loadThemeFromPrefs();
+  }
 
   ThemeMode get themeMode => _themeMode;
   
-  void setThemeMode(ThemeMode mode) {
-    if (_themeMode != mode) {
-      _themeMode = mode;
-      notifyListeners();
+  // Get if dark mode is active without requiring a BuildContext
+  bool get isDarkMode {
+    if (_themeMode == ThemeMode.system) {
+      // Get from system
+      final brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+      return brightness == Brightness.dark;
     }
+    return _themeMode == ThemeMode.dark;
   }
   
+  // For backward compatibility
   bool isDarkMode(BuildContext context) {
     if (_themeMode == ThemeMode.system) {
       return MediaQuery.of(context).platformBrightness == Brightness.dark;
     }
     return _themeMode == ThemeMode.dark;
+  }
+  
+  Future<void> setThemeMode(ThemeMode mode) async {
+    if (_themeMode != mode) {
+      _themeMode = mode;
+      notifyListeners();
+      await _saveThemePrefs();
+    }
+  }
+  
+  // Load saved theme preferences
+  Future<void> _loadThemeFromPrefs() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final savedTheme = prefs.getString(_prefKey);
+      if (savedTheme != null) {
+        if (savedTheme == 'light') {
+          _themeMode = ThemeMode.light;
+        } else if (savedTheme == 'dark') {
+          _themeMode = ThemeMode.dark;
+        } else {
+          _themeMode = ThemeMode.system;
+        }
+        notifyListeners();
+      }
+    } catch (e) {
+      // If there's an error, use system default
+      _themeMode = ThemeMode.system;
+    }
+  }
+
+  // Save theme preference to SharedPreferences
+  Future<void> _saveThemePrefs() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (_themeMode == ThemeMode.light) {
+        await prefs.setString(_prefKey, 'light');
+      } else if (_themeMode == ThemeMode.dark) {
+        await prefs.setString(_prefKey, 'dark');
+      } else {
+        await prefs.setString(_prefKey, 'system');
+      }
+    } catch (e) {
+      // Ignore save errors - will just fall back to default next time
+    }
   }
 
   static ThemeData get lightTheme {
@@ -61,24 +116,27 @@ class ThemeProvider extends ChangeNotifier {
     );
   }
 
-  void toggleTheme() {
-    _themeMode = _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-    notifyListeners();
+  Future<void> toggleTheme() async {
+    if (_themeMode == ThemeMode.light) {
+      await setThemeMode(ThemeMode.dark);
+    } else {
+      await setThemeMode(ThemeMode.light);
+    }
   }
   
   // Convenience method to directly set light mode
-  void setLightMode() {
-    setThemeMode(ThemeMode.light);
+  Future<void> setLightMode() async {
+    await setThemeMode(ThemeMode.light);
   }
   
   // Convenience method to directly set dark mode
-  void setDarkMode() {
-    setThemeMode(ThemeMode.dark);
+  Future<void> setDarkMode() async {
+    await setThemeMode(ThemeMode.dark);
   }
   
   // Convenience method to use system settings
-  void useSystemTheme() {
-    setThemeMode(ThemeMode.system);
+  Future<void> useSystemTheme() async {
+    await setThemeMode(ThemeMode.system);
   }
   
   // Get the appropriate theme based on platform

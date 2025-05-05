@@ -1,5 +1,4 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
@@ -11,37 +10,34 @@ class PlatformUtils {
   static bool get isWeb => kIsWeb;
 
   /// Check if running on iOS
-  static bool get isIOS {
-    if (kIsWeb) return false;
-    return Platform.isIOS;
-  }
+  static bool get isIOS => !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
 
   /// Check if running on Android
-  static bool get isAndroid {
-    if (kIsWeb) return false;
-    return Platform.isAndroid;
-  }
+  static bool get isAndroid => !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+
+  /// Check if running on macOS
+  static bool get isMacOS => !kIsWeb && defaultTargetPlatform == TargetPlatform.macOS;
+
+  /// Check if running on Windows
+  static bool get isWindows => !kIsWeb && defaultTargetPlatform == TargetPlatform.windows;
+
+  /// Check if running on Linux
+  static bool get isLinux => !kIsWeb && defaultTargetPlatform == TargetPlatform.linux;
 
   /// Check if running on desktop (macOS, Windows, Linux)
-  static bool get isDesktop {
-    if (kIsWeb) return false;
-    return Platform.isMacOS || 
-           Platform.isWindows || 
-           Platform.isLinux;
-  }
+  static bool get isDesktop => !kIsWeb && (isMacOS || isWindows || isLinux);
   
   /// Check if running on mobile (iOS or Android)
-  static bool get isMobile {
-    if (kIsWeb) return false;
-    return Platform.isIOS || Platform.isAndroid;
-  }
+  static bool get isMobile => !kIsWeb && (isIOS || isAndroid);
 
   /// Get the current platform as a string
   static String getPlatform() {
     if (isWeb) return 'web';
     if (isIOS) return 'ios';
     if (isAndroid) return 'android';
-    if (isDesktop) return 'desktop';
+    if (isMacOS) return 'macos';
+    if (isWindows) return 'windows';
+    if (isLinux) return 'linux';
     return 'unknown';
   }
 
