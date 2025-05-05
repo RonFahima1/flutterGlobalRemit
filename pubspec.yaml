@@ -1,0 +1,59 @@
+name: flutter_project
+description: "Global Remit - Premium iOS-Style Remittance App"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.1
+  intl: ^0.18.1
+  cupertino_icons: ^1.0.6
+  image_picker: ^1.0.4
+  flutter_svg: ^2.0.8
+  local_auth: ^2.1.6
+  responsive_framework: ^1.1.1
+  page_transition: ^2.1.0
+  http: ^1.1.0
+  shared_preferences: ^2.2.1
+  flutter_secure_storage: ^9.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  # Temporarily commenting out assets that don't exist yet
+  # Uncomment these after creating the directories and files
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+  
+  # Temporarily commenting out fonts until SF Pro fonts are added
+  # fonts:
+  #   - family: SF Pro Text
+  #     fonts:
+  #       - asset: assets/fonts/SF-Pro-Text-Regular.otf
+  #         weight: 400
+  #       - asset: assets/fonts/SF-Pro-Text-Medium.otf
+  #         weight: 500
+  #       - asset: assets/fonts/SF-Pro-Text-Semibold.otf
+  #         weight: 600
+  #       - asset: assets/fonts/SF-Pro-Text-Bold.otf
+  #         weight: 700
+  #   - family: SF Pro Display
+  #     fonts:
+  #       - asset: assets/fonts/SF-Pro-Display-Regular.otf
+  #         weight: 400
+  #       - asset: assets/fonts/SF-Pro-Display-Medium.otf
+  #         weight: 500
+  #       - asset: assets/fonts/SF-Pro-Display-Semibold.otf
+  #         weight: 600
+  #       - asset: assets/fonts/SF-Pro-Display-Bold.otf
+  #         weight: 700
