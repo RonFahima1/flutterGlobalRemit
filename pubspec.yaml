@@ -1,4 +1,4 @@
-name: flutter_project
+name: global_remit
 description: "Global Remit - Premium iOS-Style Remittance App"
 publish_to: 'none'
 version: 1.0.0+1
@@ -20,11 +20,34 @@ dependencies:
   http: ^1.1.0
   shared_preferences: ^2.2.1
   flutter_secure_storage: ^9.0.0
+  device_info_plus: ^8.1.0
+  path_provider: ^2.0.14
+  url_launcher: ^6.1.10
+  flutter_dotenv: ^5.0.2
+  country_picker: ^2.0.20
+  pin_code_fields: ^7.4.0
+  qr_flutter: ^4.0.0
+  share_plus: ^6.3.2
+  permission_handler: ^10.2.0
+  flutter_local_notifications: ^14.0.0+1
+  connectivity_plus: ^3.0.3
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  build_runner: ^2.3.3
+  mockito: ^5.4.0
+  flutter_launcher_icons: ^0.13.1
+
+# Flutter launcher icons configuration
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
 
 flutter:
   uses-material-design: true
@@ -32,26 +55,26 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - .env
   
-  # Temporarily commenting out fonts until SF Pro fonts are added
-  # fonts:
-  #   - family: SF Pro Text
-  #     fonts:
-  #       - asset: assets/fonts/SF-Pro-Text-Regular.otf
-  #         weight: 400
-  #       - asset: assets/fonts/SF-Pro-Text-Medium.otf
-  #         weight: 500
-  #       - asset: assets/fonts/SF-Pro-Text-Semibold.otf
-  #         weight: 600
-  #       - asset: assets/fonts/SF-Pro-Text-Bold.otf
-  #         weight: 700
-  #   - family: SF Pro Display
-  #     fonts:
-  #       - asset: assets/fonts/SF-Pro-Display-Regular.otf
-  #         weight: 400
-  #       - asset: assets/fonts/SF-Pro-Display-Medium.otf
-  #         weight: 500
-  #       - asset: assets/fonts/SF-Pro-Display-Semibold.otf
-  #         weight: 600
-  #       - asset: assets/fonts/SF-Pro-Display-Bold.otf
-  #         weight: 700
+  fonts:
+    - family: SF Pro Text
+      fonts:
+        - asset: assets/fonts/SF-Pro-Text-Regular.otf
+          weight: 400
+        - asset: assets/fonts/SF-Pro-Text-Medium.otf
+          weight: 500
+        - asset: assets/fonts/SF-Pro-Text-Semibold.otf
+          weight: 600
+        - asset: assets/fonts/SF-Pro-Text-Bold.otf
+          weight: 700
+    - family: SF Pro Display
+      fonts:
+        - asset: assets/fonts/SF-Pro-Display-Regular.otf
+          weight: 400
+        - asset: assets/fonts/SF-Pro-Display-Medium.otf
+          weight: 500
+        - asset: assets/fonts/SF-Pro-Display-Semibold.otf
+          weight: 600
+        - asset: assets/fonts/SF-Pro-Display-Bold.otf
+          weight: 700
