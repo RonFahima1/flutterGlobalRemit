@@ -8,135 +8,151 @@ class GlobalRemitTypography {
   static const String _fontFamily = '.SF Pro Text';
   static const String _displayFontFamily = '.SF Pro Display';
 
-  // Large Title: 34pt, SF Pro Display Bold
-  static TextStyle largeTitle(BuildContext context, {Color? color}) {
+  // Base style method to reduce code duplication
+  static TextStyle _baseStyle(
+    BuildContext context, {
+    required double fontSize,
+    required FontWeight fontWeight,
+    required double letterSpacing,
+    Color? color,
+    String? fontFamily,
+    TextDecoration? decoration,
+    double? height,
+  }) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return TextStyle(
-      fontFamily: _displayFontFamily,
+      fontFamily: fontFamily ?? _fontFamily,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      letterSpacing: letterSpacing,
+      color: color ?? (isDark ? Colors.white : Colors.black),
+      decoration: decoration,
+      height: height,
+    );
+  }
+
+  // Large Title: 34pt, SF Pro Display Bold
+  static TextStyle largeTitle(BuildContext context, {Color? color}) {
+    return _baseStyle(
+      context,
       fontSize: 34,
       fontWeight: FontWeight.bold,
       letterSpacing: 0.37,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
+      fontFamily: _displayFontFamily,
     );
   }
 
   // Title 1: 28pt, SF Pro Display Bold
   static TextStyle title1(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _displayFontFamily,
+    return _baseStyle(
+      context,
       fontSize: 28,
       fontWeight: FontWeight.bold,
       letterSpacing: 0.36,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
+      fontFamily: _displayFontFamily,
     );
   }
 
   // Title 2: 22pt, SF Pro Display Bold
   static TextStyle title2(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _displayFontFamily,
+    return _baseStyle(
+      context,
       fontSize: 22,
       fontWeight: FontWeight.bold,
       letterSpacing: 0.35,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
+      fontFamily: _displayFontFamily,
     );
   }
 
   // Title 3: 20pt, SF Pro Display Semibold
   static TextStyle title3(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _displayFontFamily,
+    return _baseStyle(
+      context,
       fontSize: 20,
       fontWeight: FontWeight.w600, // semibold
       letterSpacing: 0.38,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
+      fontFamily: _displayFontFamily,
     );
   }
 
   // Headline: 17pt, SF Pro Text Semibold
   static TextStyle headline(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 17,
       fontWeight: FontWeight.w600, // semibold
       letterSpacing: -0.41,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
     );
   }
 
   // Body: 17pt, SF Pro Text Regular
   static TextStyle body(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 17,
       fontWeight: FontWeight.normal,
       letterSpacing: -0.41,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
     );
   }
 
   // Callout: 16pt, SF Pro Text Regular
   static TextStyle callout(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 16,
       fontWeight: FontWeight.normal,
       letterSpacing: -0.32,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
     );
   }
 
   // Subhead: 15pt, SF Pro Text Regular
   static TextStyle subhead(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 15,
       fontWeight: FontWeight.normal,
       letterSpacing: -0.24,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
     );
   }
 
   // Footnote: 13pt, SF Pro Text Regular
   static TextStyle footnote(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 13,
       fontWeight: FontWeight.normal,
       letterSpacing: -0.08,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
     );
   }
 
   // Caption 1: 12pt, SF Pro Text Regular
   static TextStyle caption1(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 12,
       fontWeight: FontWeight.normal,
       letterSpacing: 0,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
     );
   }
 
   // Caption 2: 11pt, SF Pro Text Regular
   static TextStyle caption2(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 11,
       fontWeight: FontWeight.normal,
       letterSpacing: 0.07,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
     );
   }
 
@@ -144,8 +160,8 @@ class GlobalRemitTypography {
   static TextStyle bodySecondary(BuildContext context, {Color? color}) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final Color defaultColor = isDark ? Colors.white70 : Colors.black54;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 17,
       fontWeight: FontWeight.normal,
       letterSpacing: -0.41,
@@ -154,13 +170,12 @@ class GlobalRemitTypography {
   }
 
   static TextStyle bodyBold(BuildContext context, {Color? color}) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return TextStyle(
-      fontFamily: _fontFamily,
+    return _baseStyle(
+      context,
       fontSize: 17,
       fontWeight: FontWeight.w600,
       letterSpacing: -0.41,
-      color: color ?? (isDark ? Colors.white : Colors.black),
+      color: color,
     );
   }
 
@@ -172,48 +187,29 @@ class GlobalRemitTypography {
     
     return CupertinoTextThemeData(
       primaryColor: primaryColor,
-      textStyle: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 17,
-        fontWeight: FontWeight.normal,
-        letterSpacing: -0.41,
-        color: textColor,
-      ),
-      actionTextStyle: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-        letterSpacing: -0.41,
-        color: primaryColor,
-      ),
-      tabLabelTextStyle: TextStyle(
-        fontFamily: _fontFamily,
+      textStyle: body(context, color: textColor),
+      actionTextStyle: bodyBold(context, color: primaryColor),
+      tabLabelTextStyle: _baseStyle(
+        context,
         fontSize: 10,
         fontWeight: FontWeight.w500,
         letterSpacing: -0.24,
         color: textColor,
       ),
-      navActionTextStyle: TextStyle(
-        fontFamily: _fontFamily,
+      navActionTextStyle: _baseStyle(
+        context,
         fontSize: 17,
         fontWeight: FontWeight.w600,
         letterSpacing: -0.41,
         color: primaryColor,
       ),
-      navLargeTitleTextStyle: TextStyle(
-        fontFamily: _displayFontFamily,
-        fontSize: 34,
-        fontWeight: FontWeight.bold,
-        letterSpacing: 0.37,
-        color: textColor,
-      ),
-      navTitleTextStyle: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-        letterSpacing: -0.41,
-        color: textColor,
-      ),
+      navLargeTitleTextStyle: largeTitle(context, color: textColor),
+      navTitleTextStyle: headline(context, color: textColor),
     );
   }
+}
+
+// Extension for semantic font weight naming
+extension FontWeightExtension on FontWeight {
+  static const FontWeight semiBold = FontWeight.w600;
 }

@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+// Simple platform detection
+class PlatformUtils {
+  static bool get isIOS => WidgetsBinding.instance.platformDispatcher.defaultRouteName.startsWith('ios');
+  static bool get isAndroid => WidgetsBinding.instance.platformDispatcher.defaultRouteName.startsWith('android');
+  static bool get isWeb => WidgetsBinding.instance.platformDispatcher.defaultRouteName.startsWith('web');
+}
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
@@ -77,5 +85,138 @@ class ThemeProvider extends ChangeNotifier {
   // Convenience method to use system settings
   void useSystemTheme() {
     setThemeMode(ThemeMode.system);
+  }
+  
+  // Get the appropriate theme based on platform
+  ThemeData getPlatformTheme(BuildContext context) {
+    final isDark = isDarkMode(context);
+    
+    // Return appropriate theme based on platform
+    if (PlatformUtils.isIOS) {
+      return getIOSTheme(isDark: isDark);
+    } else if (PlatformUtils.isAndroid) {
+      return getAndroidTheme(isDark: isDark);
+    } else if (PlatformUtils.isWeb) {
+      return getWebTheme(isDark: isDark);
+    } else {
+      // Default theme
+      return isDark ? darkTheme : lightTheme;
+    }
+  }
+
+  // Web-specific theme
+  static ThemeData getWebTheme({required bool isDark}) {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.deepPurple,
+        brightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+      scaffoldBackgroundColor: isDark ? const Color(0xFF121212) : Colors.white,
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black,
+      ),
+      cardTheme: CardTheme(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        color: isDark ? const Color(0xFF242424) : Colors.white,
+      ),
+      dividerColor: isDark ? Colors.white24 : Colors.black12,
+    );
+  }
+
+  // iOS-specific theme
+  static ThemeData getIOSTheme({required bool isDark}) {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.deepPurple,
+        brightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+      scaffoldBackgroundColor: isDark 
+          ? CupertinoColors.darkBackgroundGray 
+          : CupertinoColors.systemBackground,
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        backgroundColor: isDark 
+            ? CupertinoColors.darkBackgroundGray 
+            : CupertinoColors.systemBackground,
+        foregroundColor: isDark ? CupertinoColors.white : CupertinoColors.black,
+      ),
+      cardTheme: CardTheme(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        color: isDark 
+            ? const Color(0xFF1C1C1E) 
+            : CupertinoColors.systemBackground,
+      ),
+      dividerColor: isDark ? CupertinoColors.systemGrey : CupertinoColors.systemGrey4,
+      cupertinoOverrideTheme: CupertinoThemeData(
+        brightness: isDark ? Brightness.dark : Brightness.light,
+        primaryColor: const Color(0xFF0A84FF),
+        scaffoldBackgroundColor: isDark 
+            ? CupertinoColors.darkBackgroundGray 
+            : CupertinoColors.systemBackground,
+      ),
+    );
+  }
+
+  // Android-specific theme
+  static ThemeData getAndroidTheme({required bool isDark}) {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.deepPurple,
+        brightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+      scaffoldBackgroundColor: isDark ? const Color(0xFF121212) : Colors.white,
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black,
+      ),
+      cardTheme: CardTheme(
+        elevation: isDark ? 1 : 0.5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        color: isDark ? const Color(0xFF2A2A2A) : Colors.white,
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: isDark ? const Color(0xFF4285F4) : const Color(0xFF1A73E8),
+        foregroundColor: Colors.white,
+      ),
+    );
+  }
+
+  // Tablet-specific theme
+  static ThemeData getTabletTheme({required bool isDark}) {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.deepPurple,
+        brightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+      scaffoldBackgroundColor: isDark ? const Color(0xFF121212) : Colors.white,
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black,
+      ),
+      cardTheme: CardTheme(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        color: isDark ? const Color(0xFF242424) : Colors.white,
+      ),
+      dividerColor: isDark ? Colors.white24 : Colors.black12,
+    );
   }
 }
