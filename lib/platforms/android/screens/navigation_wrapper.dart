@@ -15,7 +15,10 @@ class _AndroidNavigationWrapperState extends State<AndroidNavigationWrapper> {
   final List<String> _pageTitles = ['Dashboard', 'Transfers', 'Activity', 'Profile'];
 
   Widget _getPage(int index) {
-    return BaseNavigationWrapper(pageTitle: _pageTitles[index]);
+    return BaseNavigationWrapper(
+      title: _pageTitles[index],
+      selectedIndex: _selectedIndex,
+    );
   }
 
   @override

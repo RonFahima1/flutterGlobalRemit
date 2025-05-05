@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-// Simple platform detection
-class PlatformUtils {
-  static bool get isIOS => WidgetsBinding.instance.platformDispatcher.defaultRouteName.startsWith('ios');
-  static bool get isAndroid => WidgetsBinding.instance.platformDispatcher.defaultRouteName.startsWith('android');
-  static bool get isWeb => WidgetsBinding.instance.platformDispatcher.defaultRouteName.startsWith('web');
-}
+import '../utils/platform_utils.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;

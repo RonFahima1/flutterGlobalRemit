@@ -4,6 +4,7 @@ class BaseNavigationWrapper extends StatelessWidget {
   final String title;
   final int selectedIndex;
   final Widget? appBarLeading;
+  final List<Widget>? appBarActions;
   final ValueChanged<int>? onTabSelected;
   final Widget? child;
 
@@ -12,6 +13,7 @@ class BaseNavigationWrapper extends StatelessWidget {
     this.title = 'Dashboard',
     this.selectedIndex = 0,
     this.appBarLeading,
+    this.appBarActions,
     this.onTabSelected,
     this.child,
   });
@@ -22,6 +24,7 @@ class BaseNavigationWrapper extends StatelessWidget {
       appBar: AppBar(
         leading: appBarLeading,
         title: Text(title),
+        actions: appBarActions,
         elevation: 0,
       ),
       body: child ?? Builder(

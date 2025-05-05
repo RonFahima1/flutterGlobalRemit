@@ -20,7 +20,10 @@ class _WebNavigationWrapperState extends State<WebNavigationWrapper> {
 
   Widget _getPage(int index) {
     // Using BaseNavigationWrapper to display the page content
-    return BaseNavigationWrapper(pageTitle: _pageNames[index]);
+    return BaseNavigationWrapper(
+      title: _pageNames[index],
+      selectedIndex: _selectedIndex,
+    );
   }
 
   @override

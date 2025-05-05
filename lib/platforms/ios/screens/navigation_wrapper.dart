@@ -22,7 +22,7 @@ class _IOSNavigationWrapperState extends State<IOSNavigationWrapper> {
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
-        backgroundColor: GlobalRemitColors.background(context),
+        backgroundColor: GlobalRemitColors.primaryBackground(context),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.house),
@@ -53,7 +53,6 @@ class _IOSNavigationWrapperState extends State<IOSNavigationWrapper> {
             _selectedIndex = index;
           });
         },
-        backgroundColor: GlobalRemitColors.primaryBackground(context),
       ),
       tabBuilder: (context, index) {
         return CupertinoTabView(
