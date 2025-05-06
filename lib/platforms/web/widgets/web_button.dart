@@ -29,23 +29,35 @@ class WebButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+          minimumSize: const Size(120, 48),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(12),
           ),
-          elevation: 2,
+          elevation: 0,
           backgroundColor: color,
+          shadowColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          side: BorderSide(
+            color: isDestructive
+                ? GlobalRemitColors.errorRed(context).withOpacity(0.2)
+                : GlobalRemitColors.primaryBlue(context).withOpacity(0.2),
+            width: 1,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (isLoading)
-              const SizedBox(
-                width: 24,
-                height: 24,
+              SizedBox(
+                width: 20,
+                height: 20,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
                   color: Colors.white,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    isDestructive ? Colors.red : Colors.white,
+                  ),
                 ),
               )
             else

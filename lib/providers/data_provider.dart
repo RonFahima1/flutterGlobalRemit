@@ -45,17 +45,19 @@ class DataProvider with ChangeNotifier {
           id: '1',
           description: 'Groceries',
           amount: 150.00,
-          currency: 'USD',
+          sourceCurrency: 'USD',
           date: DateTime.now().subtract(const Duration(days: 1)),
-          type: TransactionType.SEND,
+          type: TransactionType.send,
+          status: TransactionStatus.completed,
         ),
         Transaction(
           id: '2',
           description: 'Salary',
           amount: 3000.00,
-          currency: 'USD',
+          sourceCurrency: 'USD',
           date: DateTime.now().subtract(const Duration(days: 2)),
-          type: TransactionType.RECEIVE,
+          type: TransactionType.receive,
+          status: TransactionStatus.completed,
         ),
       ];
 

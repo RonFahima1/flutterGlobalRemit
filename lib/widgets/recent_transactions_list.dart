@@ -19,36 +19,44 @@ class RecentTransactionsList extends StatelessWidget {
         recipientName: 'Maria Rodriguez',
         recipientCountry: 'Mexico',
         amount: 250.00,
+        sourceCurrency: 'USD',
         fee: 3.99,
         date: DateTime.now().subtract(const Duration(days: 2)),
         status: TransactionStatus.completed,
+        type: TransactionType.send,
       ),
       Transaction(
         id: '2',
         recipientName: 'Carlos Gomez',
         recipientCountry: 'Colombia',
         amount: 350.00,
+        sourceCurrency: 'USD',
         fee: 4.99,
         date: DateTime.now().subtract(const Duration(days: 5)),
         status: TransactionStatus.completed,
+        type: TransactionType.send,
       ),
       Transaction(
         id: '3',
         recipientName: 'Wei Chen',
         recipientCountry: 'China',
         amount: 500.00,
+        sourceCurrency: 'USD',
         fee: 6.99,
         date: DateTime.now().subtract(const Duration(days: 7)),
         status: TransactionStatus.completed,
+        type: TransactionType.send,
       ),
       Transaction(
         id: '4',
         recipientName: 'Priya Patel',
         recipientCountry: 'India',
         amount: 200.00,
+        sourceCurrency: 'USD',
         fee: 2.99,
         date: DateTime.now().subtract(const Duration(days: 14)),
         status: TransactionStatus.failed,
+        type: TransactionType.send,
       ),
     ];
 
@@ -128,15 +136,15 @@ class RecentTransactionsList extends StatelessWidget {
             horizontal: 16,
             vertical: 8,
           ),
-          leading: _buildCountryAvatar(transaction.recipientCountry),
+          leading: _buildCountryAvatar(transaction.recipientCountry ?? 'N/A'),
           title: Text(
-            transaction.recipientName,
+            transaction.recipientName ?? 'N/A',
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
           subtitle: Text(
-            '${dateFormatter.format(transaction.date)} • ${transaction.recipientCountry}',
+            '${dateFormatter.format(transaction.date)} • ${transaction.recipientCountry ?? 'N/A'}',
             style: theme.textTheme.bodySmall,
           ),
           trailing: Column(
@@ -193,16 +201,16 @@ class RecentTransactionsList extends StatelessWidget {
             horizontal: 16,
             vertical: 12,
           ),
-          leading: _buildCountryAvatar(transaction.recipientCountry),
+          leading: _buildCountryAvatar(transaction.recipientCountry ?? 'N/A'),
           title: Text(
-            transaction.recipientName,
+            transaction.recipientName ?? 'N/A',
             style: TextStyle(
               fontWeight: FontWeight.w600,
               color: isDark ? CupertinoColors.white : CupertinoColors.black,
             ),
           ),
           subtitle: Text(
-            '${dateFormatter.format(transaction.date)} • ${transaction.recipientCountry}',
+            '${dateFormatter.format(transaction.date)} • ${transaction.recipientCountry ?? 'N/A'}',
             style: TextStyle(
               fontSize: 13,
               color: isDark ? CupertinoColors.systemGrey : CupertinoColors.systemGrey,

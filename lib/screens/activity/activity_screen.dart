@@ -79,6 +79,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
       amount: 180.00,
       sourceCurrency: 'USD',
       fee: 2.99,
+      type: TransactionType.send,
       date: DateTime.now().subtract(const Duration(days: 18)),
       status: TransactionStatus.completed,
       referenceNumber: 'TR-10025440',
@@ -89,23 +90,26 @@ class _ActivityScreenState extends State<ActivityScreen> {
       recipientName: 'Sofia Martinez',
       recipientCountry: 'Colombia',
       amount: 275.00,
+      sourceCurrency: 'USD',
       fee: 3.99,
       date: DateTime.now().subtract(const Duration(days: 25)),
       status: TransactionStatus.completed,
+      type: TransactionType.send,
       referenceNumber: 'TR-10025441',
       description: 'Medical expenses',
     ),
     Transaction(
       id: '1007',
       recipientName: 'Maria Rodriguez',
-      recipientCountry: 'Mexico',
-      amount: 250.00,
-      fee: 3.99,
-      date: DateTime.now().subtract(const Duration(days: 35)),
+      recipientCountry: 'Peru',
+      amount: 320.00,
+      sourceCurrency: 'USD',
+      fee: 4.99,
+      date: DateTime.now().subtract(const Duration(days: 32)),
       status: TransactionStatus.completed,
       type: TransactionType.send,
       referenceNumber: 'TR-10025442',
-      description: 'Monthly support',
+      description: 'Education fund',
     ),
     Transaction(
       id: '1008',
@@ -365,13 +369,13 @@ class _ActivityScreenState extends State<ActivityScreen> {
         title: const Text('Transaction Details'),
         message: Column(
           children: [
-            _buildTransactionDetailRow('Recipient', transaction.recipientName),
-            _buildTransactionDetailRow('Country', transaction.recipientCountry),
-            _buildTransactionDetailRow('Amount', '\$${transaction.amount.toStringAsFixed(2)}'),
-            _buildTransactionDetailRow('Fee', '\$${transaction.fee.toStringAsFixed(2)}'),
-            _buildTransactionDetailRow('Total', '\$${transaction.totalAmount.toStringAsFixed(2)}'),
+            _buildTransactionDetailRow('Recipient', transaction.recipientName ?? 'N/A'),
+            _buildTransactionDetailRow('Country', transaction.recipientCountry ?? 'N/A'),
+            _buildTransactionDetailRow('Amount', transaction.amount?.toStringAsFixed(2) ?? 'N/A'),
+            _buildTransactionDetailRow('Fee', transaction.fee?.toStringAsFixed(2) ?? 'N/A'),
+            _buildTransactionDetailRow('Total', '\$${((transaction.amount ?? 0) + (transaction.fee ?? 0)).toStringAsFixed(2)}'),
             _buildTransactionDetailRow('Date', DateFormat('MMM dd, yyyy').format(transaction.date)),
-            _buildTransactionDetailRow('Status', transaction.statusText),
+            _buildTransactionDetailRow('Status', transaction.statusText ?? 'Unknown'),
             if (transaction.referenceNumber != null)
               _buildTransactionDetailRow('Reference', transaction.referenceNumber!),
             if (transaction.description != null)
@@ -403,7 +407,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
     );
   }
   
-  Widget _buildTransactionDetailRow(String label, String value) {
+  Widget _buildTransactionDetailRow(String label, String? value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -417,7 +421,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
             ),
           ),
           Text(
-            value,
+            value ?? 'N/A',
             style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 14,
@@ -438,13 +442,13 @@ class _ActivityScreenState extends State<ActivityScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildMaterialDetailItem('Recipient', transaction.recipientName),
-              _buildMaterialDetailItem('Country', transaction.recipientCountry),
-              _buildMaterialDetailItem('Amount', '\$${transaction.amount.toStringAsFixed(2)}'),
-              _buildMaterialDetailItem('Fee', '\$${transaction.fee.toStringAsFixed(2)}'),
+              _buildMaterialDetailItem('Recipient', transaction.recipientName ?? 'N/A'),
+              _buildMaterialDetailItem('Country', transaction.recipientCountry ?? 'N/A'),
+              _buildMaterialDetailItem('Amount', '\$${transaction.amount?.toStringAsFixed(2) ?? 'N/A'}'),
+              _buildMaterialDetailItem('Fee', '\$${transaction.fee?.toStringAsFixed(2) ?? 'N/A'}'),
               _buildMaterialDetailItem('Total', '\$${transaction.totalAmount.toStringAsFixed(2)}'),
               _buildMaterialDetailItem('Date', DateFormat('MMM dd, yyyy').format(transaction.date)),
-              _buildMaterialDetailItem('Status', transaction.statusText),
+              _buildMaterialDetailItem('Status', transaction.statusText ?? 'Unknown'),
               if (transaction.referenceNumber != null)
                 _buildMaterialDetailItem('Reference', transaction.referenceNumber!),
               if (transaction.description != null)
@@ -699,12 +703,12 @@ class _ActivityScreenState extends State<ActivityScreen> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: _getCountryColor(transaction.recipientCountry),
+                  color: _getCountryColor(transaction.recipientCountry ?? 'N/A'),
                   shape: BoxShape.circle,
                 ),
                 child: Center(
                   child: Text(
-                    _getCountryFlagEmoji(transaction.recipientCountry),
+                    _getCountryFlagEmoji(transaction.recipientCountry ?? 'N/A'),
                     style: const TextStyle(
                       fontSize: 20,
                     ),
@@ -719,7 +723,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      transaction.recipientName,
+                      transaction.recipientName ?? 'N/A',
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -787,7 +791,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Fee: \$${transaction.fee.toStringAsFixed(2)}',
+                'Fee: \$${transaction.fee?.toStringAsFixed(2) ?? 'N/A'}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: isDark ? Colors.white54 : Colors.black45,
                 ),

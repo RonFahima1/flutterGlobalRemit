@@ -12,9 +12,51 @@ class WebTheme extends BaseTheme {
       colorScheme: getColorScheme(context),
       textTheme: getTextTheme(context),
       appBarTheme: getAppBarTheme(context),
-      cardTheme: getCardTheme(context),
-      buttonTheme: getButtonTheme(context),
+      cardTheme: CardTheme(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      ),
+      buttonTheme: ButtonThemeData(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
       scaffoldBackgroundColor: GlobalRemitColors.primaryBackground(context),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: GlobalRemitColors.secondaryBackground(context),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: GlobalRemitColors.gray3(context)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: GlobalRemitColors.gray3(context)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: GlobalRemitColors.primaryBlue(context)),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: GlobalRemitColors.secondaryBackground(context),
+        labelStyle: TextStyle(color: GlobalRemitColors.gray1(context)),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+      dialogTheme: DialogTheme(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        backgroundColor: GlobalRemitColors.primaryBackground(context),
+      ),
     );
   }
 
@@ -39,16 +81,19 @@ class WebTheme extends BaseTheme {
     return TextTheme(
       displayLarge: TextStyle(
         fontSize: 48,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w700,
         height: 1.2,
+        letterSpacing: -0.5,
       ),
       displayMedium: TextStyle(
         fontSize: 36,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         height: 1.2,
+        letterSpacing: -0.25,
       ),
       displaySmall: TextStyle(
         fontSize: 28,
+        fontWeight: FontWeight.w600,
         fontWeight: FontWeight.bold,
         height: 1.2,
       ),

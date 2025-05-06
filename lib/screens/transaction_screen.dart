@@ -18,7 +18,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   final _descriptionController = TextEditingController();
   String _selectedAccount = '';
   String _selectedCurrency = 'USD';
-  TransactionType _transactionType = TransactionType.SEND;
+  TransactionType _transactionType = TransactionType.send;
 
   @override
   void initState() {
@@ -45,9 +45,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         description: _descriptionController.text,
         amount: double.parse(_amountController.text),
-        currency: _selectedCurrency,
+        sourceCurrency: _selectedCurrency,
         date: DateTime.now(),
         type: _transactionType,
+        status: TransactionStatus.pending,
       );
 
       context.read<DataProvider>().addTransaction(transaction);
@@ -128,7 +129,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   Expanded(
                     child: RadioListTile(
                       title: const Text('Send'),
-                      value: TransactionType.SEND,
+                      value: TransactionType.send,
                       groupValue: _transactionType,
                       onChanged: (value) {
                         setState(() {
@@ -140,7 +141,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   Expanded(
                     child: RadioListTile(
                       title: const Text('Receive'),
-                      value: TransactionType.RECEIVE,
+                      value: TransactionType.receive,
                       groupValue: _transactionType,
                       onChanged: (value) {
                         setState(() {

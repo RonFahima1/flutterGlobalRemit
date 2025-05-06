@@ -38,17 +38,58 @@ class WebTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: GlobalRemitTypography.body(context)
-              .copyWith(color: GlobalRemitColors.gray2(context)),
+          labelStyle: GlobalRemitTypography.body(context).copyWith(
+            color: GlobalRemitColors.gray2(context),
+            fontWeight: FontWeight.w500,
+          ),
           hintText: placeholder,
-          hintStyle: GlobalRemitTypography.body(context)
-              .copyWith(color: GlobalRemitColors.gray2(context)),
+          hintStyle: GlobalRemitTypography.body(context).copyWith(
+            color: GlobalRemitColors.gray2(context).withOpacity(0.7),
+            fontWeight: FontWeight.w400,
+          ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: GlobalRemitColors.gray3(context),
+              width: 1,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: GlobalRemitColors.gray3(context),
+              width: 1,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: GlobalRemitColors.primaryBlue(context),
+              width: 1.5,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: GlobalRemitColors.errorRed(context),
+              width: 1.5,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: GlobalRemitColors.errorRed(context),
+              width: 1.5,
+            ),
           ),
           prefixIcon: Icon(
             icon,
             color: color,
+            size: 20,
+          ),
+          prefixIconConstraints: const BoxConstraints(
+            minWidth: 40,
+            minHeight: 40,
           ),
           suffixIcon: obscureText
               ? Icon(
